@@ -1,0 +1,19 @@
+---
+import { stack } from "../content/site";
+import SectionHeader from "./SectionHeader.astro";
+---
+<section id="stack" class="bg-canvas-deep border-y border-canvas-rule">
+  <SectionHeader number={stack.number} label={stack.label} heading={stack.heading} />
+  <div class="max-w-container mx-auto px-6 lg:px-10 pb-24 grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
+    {stack.groups.map((g) => (
+      <div class="reveal">
+        <h3 class="font-mono text-xs uppercase tracking-wider text-ink-500">{g.title}</h3>
+        <ul class="mt-3 space-y-1.5 text-ink">
+          {g.items.map((item) => (
+            <li class="text-base">{item}</li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>
