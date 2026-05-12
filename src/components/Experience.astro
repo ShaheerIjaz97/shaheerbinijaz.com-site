@@ -2,46 +2,61 @@
 import { experience } from "../content/site";
 import SectionHeader from "./SectionHeader.astro";
 import { Icon } from "astro-icon/components";
+
+// Each role gets its own color identity along the timeline
+const roleAccents = [
+  { dot: "bg-magenta border-magenta",  ring: "shadow-[0_0_18px_rgba(224,52,139,0.55)]", text: "text-magenta",     dotInner: "bg-magenta",  check: "text-magenta" },
+  { dot: "bg-violet border-violet",    ring: "shadow-[0_0_18px_rgba(124,58,237,0.55)]", text: "text-violet",      dotInner: "bg-violet",   check: "text-violet" },
+  { dot: "bg-cyan border-cyan",        ring: "shadow-[0_0_18px_rgba(14,165,200,0.55)]", text: "text-cyan-deep",   dotInner: "bg-cyan",     check: "text-cyan-deep" },
+  { dot: "bg-coral border-coral",      ring: "shadow-[0_0_18px_rgba(255,107,71,0.55)]", text: "text-coral-deep",  dotInner: "bg-coral",    check: "text-coral-deep" },
+  { dot: "bg-amber border-amber",      ring: "shadow-[0_0_18px_rgba(232,163,60,0.55)]", text: "text-amber-deep",  dotInner: "bg-amber",    check: "text-amber-deep" },
+  { dot: "bg-lime-deep border-lime-deep", ring: "shadow-[0_0_18px_rgba(101,163,13,0.55)]", text: "text-lime-deep", dotInner: "bg-lime-deep", check: "text-lime-deep" },
+];
 ---
 <section id="experience">
-  <SectionHeader number={experience.number} label={experience.label} heading={experience.heading} accent="amber" />
-  <div class="max-w-container mx-auto px-6 lg:px-10 pb-24">
-    <ol class="relative stagger space-y-10 pl-6 md:pl-8 border-l-2 border-canvas-rule2">
-      {experience.items.map((item, idx) => (
-        <li class="fade-right relative">
-          <!-- Timeline dot -->
-          <span class="absolute -left-[33px] md:-left-[41px] top-1.5 inline-flex items-center justify-center h-6 w-6 rounded-full bg-canvas border-2 border-indigo shadow-[0_2px_8px_-2px_rgba(58,69,211,0.45)]">
-            <span class="h-1.5 w-1.5 rounded-full bg-indigo"></span>
-          </span>
-          <div class="grid lg:grid-cols-12 gap-4 lg:gap-10">
-            <div class="lg:col-span-3">
-              <div class="inline-flex items-center gap-1.5 font-mono text-[11px] text-ink-700 bg-canvas-deep px-2 py-1 rounded-full border border-canvas-rule">
-                <Icon name="lucide:calendar" class="w-3 h-3 text-amber" />
-                {item.period}
+  <SectionHeader number={experience.number} label={experience.label} heading={experience.heading} accent="magenta" />
+  <div class="max-w-container mx-auto px-5 lg:px-10 pb-16 lg:pb-24">
+    <ol class="relative stagger space-y-8 lg:space-y-10 pl-7 md:pl-8">
+      <!-- Vertical chromatic gradient line behind the dots -->
+      <span aria-hidden="true" class="absolute left-0 top-2 bottom-2 w-[2px] bg-gradient-to-b from-magenta via-violet via-cyan to-amber rounded-full"></span>
+      {experience.items.map((item, idx) => {
+        const a = roleAccents[idx % roleAccents.length];
+        return (
+          <li class="fade-right relative">
+            <!-- Timeline dot — vivid color + ring glow -->
+            <span class={`absolute -left-[34px] md:-left-[41px] top-1.5 inline-flex items-center justify-center h-6 w-6 rounded-full border-[3px] bg-canvas ${a.dot.split(" ")[1]} ${a.ring}`}>
+              <span class={`h-2 w-2 rounded-full ${a.dotInner}`}></span>
+            </span>
+            <div class="grid lg:grid-cols-12 gap-4 lg:gap-10">
+              <div class="lg:col-span-3">
+                <div class={`inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold ${a.text} bg-canvas-deep px-2.5 py-1 rounded-full border border-canvas-rule`}>
+                  <Icon name="lucide:calendar" class="w-3 h-3" />
+                  {item.period}
+                </div>
+                <p class="mt-2 font-mono text-[10px] text-ink-500 inline-flex items-center gap-1">
+                  <Icon name="lucide:map-pin" class="w-3 h-3" />
+                  {item.location}
+                </p>
               </div>
-              <p class="mt-2 font-mono text-[10px] text-ink-400 inline-flex items-center gap-1">
-                <Icon name="lucide:map-pin" class="w-3 h-3" />
-                {item.location}
-              </p>
+              <div class="lg:col-span-9 max-w-prose">
+                <h3 class="font-serif text-2xl text-ink leading-tight">{item.role}</h3>
+                <p class={`mt-1 text-sm font-bold inline-flex items-center gap-1.5 ${a.text}`}>
+                  <Icon name="lucide:building-2" class="w-4 h-4" />
+                  {item.org}
+                </p>
+                <ul class="mt-4 space-y-2.5">
+                  {item.bullets.map((b: string) => (
+                    <li class="flex gap-3 text-ink-800 leading-relaxed text-sm">
+                      <Icon name="lucide:check-circle-2" class={`w-4 h-4 mt-1 ${a.check} flex-shrink-0`} />
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            <div class="lg:col-span-9 max-w-prose">
-              <h3 class="font-serif text-2xl text-ink leading-tight">{item.role}</h3>
-              <p class="mt-1 text-sm text-indigo font-semibold inline-flex items-center gap-1.5">
-                <Icon name="lucide:building-2" class="w-4 h-4" />
-                {item.org}
-              </p>
-              <ul class="mt-4 space-y-2.5">
-                {item.bullets.map((b: string) => (
-                  <li class="flex gap-3 text-ink-800 leading-relaxed text-sm">
-                    <Icon name="lucide:check" class="w-4 h-4 mt-1 text-moss flex-shrink-0" />
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </li>
-      ))}
+          </li>
+        );
+      })}
     </ol>
   </div>
 </section>

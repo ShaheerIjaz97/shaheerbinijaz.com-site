@@ -9,17 +9,30 @@ const icons = [
   "lucide:layers",        // Solana indexing
   "lucide:zap",           // performance
 ];
+const accents = [
+  { chip: "bg-coral-soft text-coral-deep",   border: "hover:border-coral/50" },
+  { chip: "bg-magenta-soft text-magenta",    border: "hover:border-magenta/50" },
+  { chip: "bg-violet-soft text-violet",      border: "hover:border-violet/50" },
+  { chip: "bg-amber-soft text-amber-deep",   border: "hover:border-amber/50" },
+];
 ---
-<section id="now" class="bg-canvas-deep border-y border-canvas-rule">
-  <SectionHeader number={now.number} label={now.label} heading={now.heading} accent="amber" />
-  <div class="max-w-container mx-auto px-6 lg:px-10 pb-24 stagger grid md:grid-cols-2 gap-5">
-    {now.items.map((line, idx) => (
-      <div class="fade-up card rounded-xl p-5 flex items-start gap-4">
-        <span class="inline-flex items-center justify-center h-11 w-11 rounded-lg bg-amber-soft text-amber-deep flex-shrink-0">
-          <Icon name={icons[idx] || "lucide:circle"} class="w-5 h-5" />
-        </span>
-        <p class="text-ink-800 leading-relaxed text-sm pt-1.5">{line}</p>
-      </div>
-    ))}
+<section id="now" class="relative bg-canvas-deep border-y border-canvas-rule overflow-hidden">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 opacity-50">
+    <div class="absolute top-0 right-[10%] h-[300px] w-[300px] rounded-full blur-3xl"
+         style="background: radial-gradient(50% 50% at 50% 50%, rgba(255,107,71,0.20), transparent 70%);"></div>
+  </div>
+  <SectionHeader number={now.number} label={now.label} heading={now.heading} accent="coral" />
+  <div class="max-w-container mx-auto px-5 lg:px-10 pb-16 lg:pb-24 stagger grid md:grid-cols-2 gap-5">
+    {now.items.map((line, idx) => {
+      const a = accents[idx % accents.length];
+      return (
+        <div class={`fade-up card rounded-xl p-5 flex items-start gap-4 ${a.border}`}>
+          <span class={`inline-flex items-center justify-center h-11 w-11 rounded-lg ${a.chip} flex-shrink-0`}>
+            <Icon name={icons[idx] || "lucide:circle"} class="w-5 h-5" />
+          </span>
+          <p class="text-ink-800 leading-relaxed text-sm pt-1.5">{line}</p>
+        </div>
+      );
+    })}
   </div>
 </section>

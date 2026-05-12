@@ -16,47 +16,65 @@ const badgeIcons: Record<string, string> = {
   "Web3":     "lucide:coins",
 };
 ---
-<section id="top" class="relative overflow-hidden border-b border-canvas-rule">
+<section id="top" class="relative isolate overflow-hidden border-b border-canvas-rule">
 
-  <!-- Background decorations -->
-  <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-20">
-    <div class="absolute top-20 right-[20%] h-[420px] w-[420px] rounded-full opacity-50"
-         style="background: radial-gradient(50% 50% at 50% 50%, rgba(58,69,211,0.18), transparent 70%);"></div>
-    <div class="absolute top-40 right-[5%] h-[240px] w-[240px] rounded-full opacity-40"
-         style="background: radial-gradient(50% 50% at 50% 50%, rgba(232,163,60,0.20), transparent 70%);"></div>
+  <!-- Vivid gradient mesh background — visible but not screaming over text -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
+    <!-- Magenta blob top-left -->
+    <div class="absolute -top-32 -left-24 h-[640px] w-[640px] rounded-full"
+         style="background: radial-gradient(closest-side, rgba(224,52,139,0.55), rgba(224,52,139,0) 70%);"></div>
+    <!-- Violet blob top-right -->
+    <div class="absolute -top-10 -right-10 h-[680px] w-[680px] rounded-full"
+         style="background: radial-gradient(closest-side, rgba(124,58,237,0.50), rgba(124,58,237,0) 70%);"></div>
+    <!-- Cyan blob center -->
+    <div class="absolute top-[40%] left-[30%] h-[520px] w-[520px] rounded-full"
+         style="background: radial-gradient(closest-side, rgba(14,165,200,0.45), rgba(14,165,200,0) 70%);"></div>
+    <!-- Coral blob bottom-right -->
+    <div class="absolute -bottom-10 right-[15%] h-[460px] w-[460px] rounded-full"
+         style="background: radial-gradient(closest-side, rgba(255,107,71,0.42), rgba(255,107,71,0) 70%);"></div>
+    <!-- Lime blob bottom-left -->
+    <div class="absolute -bottom-32 -left-10 h-[420px] w-[420px] rounded-full"
+         style="background: radial-gradient(closest-side, rgba(163,230,53,0.35), rgba(163,230,53,0) 70%);"></div>
+    <!-- Subtle grid texture overlay -->
+    <div class="absolute inset-0 bg-grid bg-grid opacity-[0.25]"></div>
   </div>
+  <!-- Bottom chromatic stripe bleeds into next section -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-1.5 bg-gradient-to-r from-magenta via-violet via-cyan to-coral z-10"></div>
 
-  <div class="max-w-container mx-auto px-6 lg:px-10 pt-16 pb-20 lg:pt-24 lg:pb-28 grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+  <div class="max-w-container mx-auto px-5 lg:px-10 pt-10 pb-14 lg:pt-24 lg:pb-28 grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
-    <!-- Left: text -->
-    <div class="lg:col-span-7 order-2 lg:order-1">
+    <!-- Left: text — appears first on mobile too -->
+    <div class="lg:col-span-7 order-1">
 
-      <!-- Status pill -->
+      <!-- Status pill — gradient border with live ping dot -->
       <div class="fade-up">
-        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-moss-soft border border-moss/30">
-          <span class="relative inline-flex h-2 w-2">
-            <span class="absolute inline-flex h-full w-full rounded-full bg-moss opacity-60 animate-ping"></span>
-            <span class="relative inline-flex h-2 w-2 rounded-full bg-moss"></span>
+        <span class="relative inline-flex items-center gap-2 px-4 py-2 rounded-full bg-canvas shadow-md ring-2 ring-transparent"
+              style="background-image: linear-gradient(theme(colors.canvas.DEFAULT), theme(colors.canvas.DEFAULT)), linear-gradient(90deg, theme(colors.lime.DEFAULT), theme(colors.cyan.DEFAULT), theme(colors.violet.DEFAULT)); background-origin: border-box; background-clip: padding-box, border-box; border: 2px solid transparent;">
+          <span class="relative inline-flex h-2.5 w-2.5">
+            <span class="absolute inline-flex h-full w-full rounded-full bg-lime opacity-80 animate-ping"></span>
+            <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-lime-deep"></span>
           </span>
-          <span class="font-mono text-[11px] uppercase tracking-wider text-moss font-semibold">
+          <span class="font-mono text-[11px] uppercase tracking-[0.16em] text-ink font-bold">
             {hero.status.pill}
           </span>
         </span>
       </div>
 
       <!-- Greeting -->
-      <p class="mt-8 font-serif italic text-2xl text-ink-800 fade-up stagger-1">
+      <p class="mt-6 lg:mt-8 font-serif italic text-xl lg:text-2xl text-ink-800 fade-up stagger-1">
         {hero.greeting}
       </p>
 
-      <!-- Big name -->
-      <h1 class="mt-1 font-sans font-extrabold tracking-tight text-display-2xl text-ink leading-[0.92] fade-up stagger-2">
-        {hero.nameLines.map((line) => <span class="block">{line}</span>)}
+      <!-- Big name — last line gets vivid magenta→violet→cyan gradient -->
+      <h1 class="mt-1 font-sans font-extrabold tracking-tight text-[2.625rem] sm:text-[3.5rem] lg:text-display-2xl text-ink leading-[0.95] lg:leading-[0.92] fade-up stagger-2">
+        {hero.nameLines.map((line, i) => (
+          <span class={`block ${i === hero.nameLines.length - 1 ? "bg-gradient-to-r from-magenta via-violet to-cyan bg-clip-text text-transparent" : ""}`}>{line}</span>
+        ))}
       </h1>
 
       <!-- Role + italic tag -->
       <div class="mt-6 fade-up stagger-3">
-        <p class="font-mono text-xs uppercase tracking-[0.18em] text-indigo font-semibold">
+        <p class="font-mono text-xs uppercase tracking-[0.18em] text-violet font-semibold">
           {hero.roleLine}
         </p>
         <p class="mt-2 font-serif italic text-2xl text-ink-800 max-w-[28ch]">
@@ -70,12 +88,12 @@ const badgeIcons: Record<string, string> = {
       </p>
 
       <!-- CTAs -->
-      <div class="mt-8 flex flex-wrap items-center gap-3 fade-up stagger-5">
-        <a href={hero.ctas.primary.href} class="btn btn-primary">
+      <div class="mt-7 lg:mt-8 grid grid-cols-1 sm:flex sm:flex-wrap items-stretch sm:items-center gap-3 fade-up stagger-5">
+        <a href={hero.ctas.primary.href} class="btn btn-primary justify-center sm:justify-start">
           {hero.ctas.primary.label}
           <Icon name="lucide:arrow-right" class="w-4 h-4" />
         </a>
-        <a href={hero.ctas.secondary.href} class="btn btn-ghost">
+        <a href={hero.ctas.secondary.href} class="btn btn-ghost justify-center sm:justify-start">
           <Icon name="lucide:download" class="w-4 h-4" />
           {hero.ctas.secondary.label}
         </a>
@@ -104,43 +122,58 @@ const badgeIcons: Record<string, string> = {
 
     </div>
 
-    <!-- Right: photo + floating badges -->
-    <div class="lg:col-span-5 order-1 lg:order-2 scale-in">
-      <div class="relative mx-auto w-full max-w-[420px] aspect-[3/4]" data-hero-photo>
+    <!-- Right: photo + floating badges — comes after text on mobile, side on desktop -->
+    <div class="lg:col-span-5 order-2 scale-in">
+      <div class="relative mx-auto w-full max-w-[280px] sm:max-w-[340px] lg:max-w-[420px] aspect-[3/4]" data-hero-photo>
 
-        <!-- Rotated decorative cards behind photo -->
+        <!-- Rotated decorative cards behind photo — hidden on smallest screens to reduce noise -->
         <div aria-hidden="true"
-             class="absolute inset-0 -z-10 rounded-3xl bg-amber-soft border border-amber/20"
-             style="transform: rotate(-4deg) translate(-12px, 16px);">
+             class="hidden sm:block absolute inset-0 -z-10 rounded-3xl bg-magenta-soft border border-magenta/30"
+             style="transform: rotate(-5deg) translate(-14px, 18px);">
         </div>
         <div aria-hidden="true"
-             class="absolute inset-0 -z-10 rounded-3xl bg-indigo-soft border border-indigo/15"
-             style="transform: rotate(3deg) translate(8px, -10px);">
+             class="hidden sm:block absolute inset-0 -z-10 rounded-3xl bg-cyan-soft border border-cyan/30"
+             style="transform: rotate(4deg) translate(10px, -12px);">
         </div>
 
-        <!-- Photo card -->
-        <div class="absolute inset-0 rounded-3xl overflow-hidden bg-canvas-deep border border-canvas-rule shadow-[0_30px_60px_-30px_rgba(14,17,22,0.35)]">
-          <img
-            src="/shaheer.jpg"
-            alt={`${profile.name} — ${profile.title}`}
-            class="w-full h-full object-cover"
-            loading="eager"
-            decoding="async"
-          />
-        </div>
-
-        <!-- Floating expertise badges (now with icons + float animation) -->
-        {hero.badges.map((b) => (
-          <div class={`${positionClasses[b.position]} hidden md:block`}>
-            <div class="card rounded-2xl px-4 py-3 bg-canvas shadow-[0_12px_32px_-12px_rgba(14,17,22,0.25)] min-w-[160px]">
-              <div class="flex items-center gap-2">
-                <Icon name={badgeIcons[b.kicker] || "lucide:code"} class="w-3.5 h-3.5 text-indigo" />
-                <p class="font-mono text-[10px] uppercase tracking-wider text-indigo font-semibold">{b.kicker}</p>
-              </div>
-              <p class="mt-1 text-sm text-ink font-medium">{b.label}</p>
-            </div>
+        <!-- Photo with vivid gradient frame: magenta → violet → cyan -->
+        <div class="absolute inset-0 rounded-3xl p-[3px] bg-gradient-to-br from-magenta via-violet to-cyan shadow-[0_30px_60px_-20px_rgba(124,58,237,0.55)]">
+          <div class="relative w-full h-full rounded-[22px] overflow-hidden bg-canvas-deep">
+            <img
+              src="/shaheer.jpg"
+              alt={`${profile.name} — ${profile.title}`}
+              class="w-full h-full object-cover"
+              loading="eager"
+              decoding="async"
+            />
+            <!-- Subtle bottom glow scrim -->
+            <div aria-hidden="true" class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-violet/25 to-transparent"></div>
           </div>
-        ))}
+        </div>
+
+        <!-- Floating expertise badges — each gets its own bold accent color -->
+        {hero.badges.map((b, idx) => {
+          const badgeAccents = [
+            { text: "text-magenta", chip: "bg-magenta-soft" },
+            { text: "text-cyan",    chip: "bg-cyan-soft" },
+            { text: "text-violet",  chip: "bg-violet-soft" },
+            { text: "text-coral",   chip: "bg-coral-soft" },
+          ];
+          const a = badgeAccents[idx % 4];
+          return (
+            <div class={`${positionClasses[b.position]} hidden md:block`}>
+              <div class="rounded-2xl px-4 py-3 bg-canvas border border-canvas-rule shadow-[0_18px_40px_-12px_rgba(14,17,22,0.30)] min-w-[160px] hover:-translate-y-1 transition-transform">
+                <div class="flex items-center gap-2">
+                  <span class={`inline-flex items-center justify-center w-6 h-6 rounded-md ${a.chip}`}>
+                    <Icon name={badgeIcons[b.kicker] || "lucide:code"} class={`w-3.5 h-3.5 ${a.text}`} />
+                  </span>
+                  <p class={`font-mono text-[10px] uppercase tracking-wider ${a.text} font-semibold`}>{b.kicker}</p>
+                </div>
+                <p class="mt-1 text-sm text-ink font-medium">{b.label}</p>
+              </div>
+            </div>
+          );
+        })}
 
       </div>
     </div>

@@ -4,24 +4,29 @@ import SectionHeader from "./SectionHeader.astro";
 import { Icon } from "astro-icon/components";
 ---
 <section id="education" class="bg-canvas-deep border-y border-canvas-rule">
-  <SectionHeader number={education.number} label={education.label} heading={education.heading} accent="moss" />
-  <div class="max-w-container mx-auto px-6 lg:px-10 pb-24 stagger grid md:grid-cols-2 gap-5">
-    {education.items.map((item) => (
-      <div class="fade-up card rounded-xl p-6 group">
-        <div class="flex items-start gap-4">
-          <span class="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-moss-soft text-moss flex-shrink-0">
-            <Icon name="lucide:graduation-cap" class="w-6 h-6" />
-          </span>
-          <div>
-            <p class="font-mono text-[11px] text-moss font-semibold">{item.period}</p>
-            <p class="mt-1 font-serif text-xl text-ink leading-tight">{item.degree}</p>
-            <p class="mt-1 text-sm text-ink-700 inline-flex items-center gap-1.5">
-              <Icon name="lucide:school" class="w-3.5 h-3.5" />
-              {item.org}
-            </p>
+  <SectionHeader number={education.number} label={education.label} heading={education.heading} accent="lime" />
+  <div class="max-w-container mx-auto px-5 lg:px-10 pb-16 lg:pb-24 stagger grid md:grid-cols-2 gap-5">
+    {education.items.map((item, idx) => {
+      const accent = idx === 0
+        ? { chip: "bg-lime-soft text-lime-deep", border: "hover:border-lime/60", text: "text-lime-deep" }
+        : { chip: "bg-cyan-soft text-cyan-deep", border: "hover:border-cyan/60", text: "text-cyan-deep" };
+      return (
+        <div class={`fade-up card rounded-xl p-5 lg:p-6 group ${accent.border}`}>
+          <div class="flex items-start gap-4">
+            <span class={`inline-flex items-center justify-center h-12 w-12 rounded-xl ${accent.chip} flex-shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
+              <Icon name="lucide:graduation-cap" class="w-6 h-6" />
+            </span>
+            <div>
+              <p class={`font-mono text-[11px] font-bold ${accent.text}`}>{item.period}</p>
+              <p class="mt-1 font-serif text-xl text-ink leading-tight">{item.degree}</p>
+              <p class="mt-1 text-sm text-ink-700 inline-flex items-center gap-1.5">
+                <Icon name="lucide:school" class="w-3.5 h-3.5" />
+                {item.org}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-    ))}
+      );
+    })}
   </div>
 </section>

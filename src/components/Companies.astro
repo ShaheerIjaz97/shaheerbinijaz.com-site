@@ -1,14 +1,17 @@
 ---
 import { companies } from "../content/site";
+
+const dotColors = ["bg-magenta", "bg-violet", "bg-cyan", "bg-coral"];
 ---
-<section class="border-b border-canvas-rule">
-  <div class="max-w-container mx-auto px-6 lg:px-10 py-6">
-    <p class="font-mono text-[10px] uppercase tracking-wider text-ink-400 mb-3 reveal">{companies.label}</p>
-    <div class="flex flex-wrap items-end gap-x-10 gap-y-3 reveal">
-      {companies.items.map((c) => (
-        <div class="flex items-baseline gap-3">
-          <span class="font-serif text-xl text-ink">{c.name}</span>
-          <span class="font-mono text-[11px] text-ink-400">{c.period}</span>
+<section class="border-b border-canvas-rule bg-gradient-to-r from-magenta-soft via-violet-soft to-cyan-soft">
+  <div class="max-w-container mx-auto px-5 lg:px-10 py-5 lg:py-7">
+    <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-violet font-bold mb-3 reveal">{companies.label}</p>
+    <div class="flex flex-wrap items-baseline gap-x-6 lg:gap-x-10 gap-y-2 lg:gap-y-3 reveal">
+      {companies.items.map((c, i) => (
+        <div class="flex items-baseline gap-2.5 group">
+          <span class={`inline-block w-2 h-2 lg:w-2.5 lg:h-2.5 rounded-full ${dotColors[i % dotColors.length]} translate-y-[-2px] shadow-[0_0_12px_rgba(0,0,0,0.15)] group-hover:scale-150 transition-transform`}></span>
+          <span class="font-serif text-base lg:text-xl text-ink font-medium">{c.name}</span>
+          <span class="font-mono text-[10px] lg:text-[11px] text-ink-700">{c.period}</span>
         </div>
       ))}
     </div>

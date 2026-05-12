@@ -29,10 +29,10 @@ const { title, description } = Astro.props;
       Skip to content
     </a>
 
-    <!-- Scroll progress bar -->
+    <!-- Scroll progress bar — chromatic stripe driven by scroll position -->
     <div
       id="scroll-progress"
-      class="fixed top-0 left-0 h-[2px] bg-gradient-to-r from-indigo via-amber to-moss z-50 w-0 transition-[width] duration-75 ease-out no-print"
+      class="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-magenta via-violet via-cyan to-coral z-50 w-0 transition-[width] duration-75 ease-out no-print shadow-[0_0_12px_rgba(124,58,237,0.55)]"
       aria-hidden="true"
     ></div>
 

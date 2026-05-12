@@ -46,6 +46,12 @@ export default {
           dim:     "#82B098",
           soft:    "#E5EDE7",
         },
+        // Bold accent palette — section identity + gradient meshes + chromatic surfaces.
+        magenta: { DEFAULT: "#E0348B", deep: "#B71F6E", dim: "#F06AAB", soft: "#FCE4F0" },
+        cyan:    { DEFAULT: "#0EA5C8", deep: "#0A7E9A", dim: "#5BC4DC", soft: "#DCF1F6" },
+        violet:  { DEFAULT: "#7C3AED", deep: "#5B21B6", dim: "#A78BFA", soft: "#EDE4FE" },
+        coral:   { DEFAULT: "#FF6B47", deep: "#D14B27", dim: "#FF8E73", soft: "#FFE3D9" },
+        lime:    { DEFAULT: "#A3E635", deep: "#65A30D", dim: "#BEF264", soft: "#ECFCCB" },
         // Muted neutrals for subtle highlight backgrounds.
         sky:  "#E3E9F6",
         sand: "#EDE7DA",

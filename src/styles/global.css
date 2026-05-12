@@ -156,43 +156,46 @@ html, body {
 }
 .btn:hover { transform: translateY(-2px); }
 .btn-primary {
-  background-color: theme("colors.ink.DEFAULT");
+  background: linear-gradient(135deg, theme("colors.ink.DEFAULT"), theme("colors.ink.800"));
   color: theme("colors.canvas.DEFAULT");
-  box-shadow: 0 8px 20px -10px rgba(14, 17, 22, 0.40);
+  box-shadow: 0 10px 24px -12px rgba(14, 17, 22, 0.55);
+  position: relative;
 }
 .btn-primary:hover {
-  background-color: theme("colors.indigo.DEFAULT");
-  box-shadow: 0 12px 28px -10px rgba(58, 69, 211, 0.55);
+  background: linear-gradient(135deg, theme("colors.magenta.DEFAULT"), theme("colors.violet.DEFAULT"));
+  box-shadow: 0 16px 32px -10px rgba(224, 52, 139, 0.55), 0 8px 20px -8px rgba(124, 58, 237, 0.45);
 }
 .btn-ghost {
   background-color: transparent;
   color: theme("colors.ink.DEFAULT");
-  border: 1px solid theme("colors.canvas.rule2");
+  border: 1.5px solid theme("colors.canvas.rule2");
 }
 .btn-ghost:hover {
-  border-color: theme("colors.ink.DEFAULT");
+  border-color: theme("colors.violet.DEFAULT");
+  color: theme("colors.violet.DEFAULT");
+  box-shadow: 0 8px 20px -10px rgba(124, 58, 237, 0.40);
 }
 .btn-amber {
-  background-color: theme("colors.amber.DEFAULT");
+  background: linear-gradient(135deg, theme("colors.amber.DEFAULT"), theme("colors.coral.DEFAULT"));
   color: theme("colors.canvas.DEFAULT");
-  box-shadow: 0 8px 20px -10px rgba(232, 163, 60, 0.55);
+  box-shadow: 0 10px 24px -12px rgba(255, 107, 71, 0.55);
 }
 .btn-amber:hover {
-  background-color: theme("colors.amber.deep");
+  background: linear-gradient(135deg, theme("colors.coral.DEFAULT"), theme("colors.magenta.DEFAULT"));
+  box-shadow: 0 16px 32px -10px rgba(224, 52, 139, 0.50);
 }
 
 .card {
   background-color: theme("colors.canvas.DEFAULT");
-  border: 1px solid theme("colors.canvas.rule");
-  transition: border-color 220ms ease, transform 220ms cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 220ms ease;
+  border: 1.5px solid theme("colors.canvas.rule");
+  transition: border-color 220ms ease, transform 220ms cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 220ms ease, background-color 220ms ease;
 }
 .card:hover {
-  border-color: theme("colors.indigo.dim");
-  transform: translateY(-4px);
-  box-shadow: 0 18px 40px -20px rgba(14, 17, 22, 0.22);
+  transform: translateY(-5px);
+  box-shadow: 0 24px 50px -22px rgba(124, 58, 237, 0.28), 0 8px 16px -10px rgba(14, 17, 22, 0.18);
 }
 
-/* Pill chip used in stack section */
+/* Pill chip used in stack section — rotates through palette via nth-child variants */
 .chip {
   display: inline-flex;
   align-items: center;
@@ -203,14 +206,22 @@ html, body {
   background-color: theme("colors.canvas.DEFAULT");
   font-size: 0.8125rem;
   color: theme("colors.ink.700");
-  transition: border-color 180ms ease, color 180ms ease, transform 180ms ease, background-color 180ms ease;
+  font-weight: 500;
+  transition: border-color 180ms ease, color 180ms ease, transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
 }
 .chip:hover {
-  border-color: theme("colors.indigo.DEFAULT");
-  color: theme("colors.indigo.DEFAULT");
-  background-color: theme("colors.indigo.soft");
-  transform: translateY(-1px);
+  border-color: theme("colors.violet.DEFAULT");
+  color: theme("colors.violet.DEFAULT");
+  background-color: theme("colors.violet.soft");
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px -6px rgba(124, 58, 237, 0.45);
 }
+/* Stack chip palette rotation by position inside parent */
+.chip:nth-child(5n+1):hover { border-color: theme("colors.magenta.DEFAULT"); color: theme("colors.magenta.DEFAULT"); background-color: theme("colors.magenta.soft"); box-shadow: 0 6px 14px -6px rgba(224,52,139,0.45); }
+.chip:nth-child(5n+2):hover { border-color: theme("colors.cyan.DEFAULT");    color: theme("colors.cyan.deep");    background-color: theme("colors.cyan.soft");    box-shadow: 0 6px 14px -6px rgba(14,165,200,0.45); }
+.chip:nth-child(5n+3):hover { border-color: theme("colors.violet.DEFAULT");  color: theme("colors.violet.DEFAULT"); background-color: theme("colors.violet.soft");  box-shadow: 0 6px 14px -6px rgba(124,58,237,0.45); }
+.chip:nth-child(5n+4):hover { border-color: theme("colors.coral.DEFAULT");   color: theme("colors.coral.deep");   background-color: theme("colors.coral.soft");   box-shadow: 0 6px 14px -6px rgba(255,107,71,0.45); }
+.chip:nth-child(5n+5):hover { border-color: theme("colors.amber.DEFAULT");   color: theme("colors.amber.deep");   background-color: theme("colors.amber.soft");   box-shadow: 0 6px 14px -6px rgba(232,163,60,0.45); }
 
 /* Decorative pulse dot used in nav / status pill */
 .pulse-dot {

@@ -10,23 +10,38 @@ const principleIcons = [
   "lucide:activity",      // observability
   "lucide:file-text",     // architecture docs
 ];
-const accents = ["indigo", "amber", "moss", "indigo", "amber"];
+const accents = ["magenta", "cyan", "violet", "amber", "lime"];
 const accentClasses: Record<string, string> = {
-  indigo: "bg-indigo-soft text-indigo",
-  amber:  "bg-amber-soft text-amber-deep",
-  moss:   "bg-moss-soft text-moss",
+  indigo:  "bg-indigo-soft text-indigo",
+  amber:   "bg-amber-soft text-amber-deep",
+  moss:    "bg-moss-soft text-moss",
+  magenta: "bg-magenta-soft text-magenta",
+  cyan:    "bg-cyan-soft text-cyan-deep",
+  violet:  "bg-violet-soft text-violet",
+  coral:   "bg-coral-soft text-coral-deep",
+  lime:    "bg-lime-soft text-lime-deep",
+};
+const cardHover: Record<string, string> = {
+  indigo:  "hover:border-indigo/50",
+  amber:   "hover:border-amber/50",
+  moss:    "hover:border-moss/50",
+  magenta: "hover:border-magenta/50",
+  cyan:    "hover:border-cyan/50",
+  violet:  "hover:border-violet/50",
+  coral:   "hover:border-coral/50",
+  lime:    "hover:border-lime/60",
 };
 ---
 <section id="principles">
-  <SectionHeader number={principles.number} label={principles.label} heading={principles.heading} accent="indigo" />
-  <div class="max-w-container mx-auto px-6 lg:px-10 pb-24 stagger grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+  <SectionHeader number={principles.number} label={principles.label} heading={principles.heading} accent="cyan" />
+  <div class="max-w-container mx-auto px-5 lg:px-10 pb-16 lg:pb-24 stagger grid md:grid-cols-2 lg:grid-cols-3 gap-5">
     {principles.items.map((p, idx) => (
-      <article class="fade-up card rounded-2xl p-6 group">
+      <article class={`fade-up card rounded-2xl p-5 lg:p-6 group ${cardHover[accents[idx]]}`}>
         <span class={`inline-flex items-center justify-center h-12 w-12 rounded-xl ${accentClasses[accents[idx]]} transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
           <Icon name={principleIcons[idx] || "lucide:check"} class="w-6 h-6" />
         </span>
         <div class="mt-4 flex items-baseline gap-2">
-          <span class="font-mono text-[11px] text-ink-400">{String(idx + 1).padStart(2, "0")}</span>
+          <span class={`font-mono text-[11px] font-bold ${accentClasses[accents[idx]].split(" ")[1]}`}>{String(idx + 1).padStart(2, "0")}</span>
           <h3 class="font-serif text-xl text-ink leading-tight">{p.title}</h3>
         </div>
         <p class="mt-3 text-sm text-ink-800 leading-relaxed">{p.body}</p>

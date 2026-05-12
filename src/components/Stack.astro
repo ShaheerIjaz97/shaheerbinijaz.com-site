@@ -15,20 +15,37 @@ const groupIcon: Record<string, string> = {
 };
 const groupAccent: Record<string, string> = {
   "Languages":     "text-indigo bg-indigo-soft",
-  "Backend":       "text-indigo bg-indigo-soft",
-  "Data":          "text-amber-deep bg-amber-soft",
-  "ML / CV":       "text-moss bg-moss-soft",
-  "Cloud & infra": "text-indigo bg-indigo-soft",
-  "Event-driven":  "text-amber-deep bg-amber-soft",
-  "Blockchain":    "text-amber-deep bg-amber-soft",
-  "Observability": "text-moss bg-moss-soft",
+  "Backend":       "text-violet bg-violet-soft",
+  "Data":          "text-cyan-deep bg-cyan-soft",
+  "ML / CV":       "text-magenta bg-magenta-soft",
+  "Cloud & infra": "text-amber-deep bg-amber-soft",
+  "Event-driven":  "text-coral-deep bg-coral-soft",
+  "Blockchain":    "text-violet bg-violet-soft",
+  "Observability": "text-lime-deep bg-lime-soft",
+};
+const groupBorder: Record<string, string> = {
+  "Languages":     "hover:border-indigo/50",
+  "Backend":       "hover:border-violet/50",
+  "Data":          "hover:border-cyan/50",
+  "ML / CV":       "hover:border-magenta/50",
+  "Cloud & infra": "hover:border-amber/50",
+  "Event-driven":  "hover:border-coral/50",
+  "Blockchain":    "hover:border-violet/50",
+  "Observability": "hover:border-lime/60",
 };
 ---
-<section id="stack" class="bg-canvas-deep border-y border-canvas-rule">
-  <SectionHeader number={stack.number} label={stack.label} heading={stack.heading} accent="indigo" />
-  <div class="max-w-container mx-auto px-6 lg:px-10 pb-24 stagger grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+<section id="stack" class="relative bg-canvas-deep border-y border-canvas-rule overflow-hidden">
+  <!-- Subtle chromatic wash behind the grid -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 opacity-60">
+    <div class="absolute -top-24 -left-24 h-[400px] w-[400px] rounded-full blur-3xl"
+         style="background: radial-gradient(50% 50% at 50% 50%, rgba(124,58,237,0.18), transparent 70%);"></div>
+    <div class="absolute -bottom-24 -right-24 h-[420px] w-[420px] rounded-full blur-3xl"
+         style="background: radial-gradient(50% 50% at 50% 50%, rgba(14,165,200,0.18), transparent 70%);"></div>
+  </div>
+  <SectionHeader number={stack.number} label={stack.label} heading={stack.heading} accent="violet" />
+  <div class="max-w-container mx-auto px-5 lg:px-10 pb-16 lg:pb-24 stagger grid md:grid-cols-2 lg:grid-cols-4 gap-5">
     {stack.groups.map((g) => (
-      <div class="fade-up card rounded-xl p-5">
+      <div class={`fade-up card rounded-xl p-5 ${groupBorder[g.title] || ""}`}>
         <div class="flex items-center gap-2">
           <span class={`inline-flex items-center justify-center h-9 w-9 rounded-lg ${groupAccent[g.title] || "text-indigo bg-indigo-soft"}`}>
             <Icon name={groupIcon[g.title] || "lucide:code"} class="w-5 h-5" />

@@ -1,25 +1,48 @@
 ---
 import { profile, nav } from "../content/site";
+
+// Per-item nav accent colors — each matches the section's identity color
+const navAccents = [
+  "text-indigo  group-hover:text-indigo",   // 01 About
+  "text-magenta group-hover:text-magenta",  // 02 Work
+  "text-violet  group-hover:text-violet",   // 03 Stack
+  "text-magenta group-hover:text-magenta",  // 04 Experience
+  "text-lime-deep group-hover:text-lime-deep", // 05 Education
+  "text-cyan-deep group-hover:text-cyan-deep", // 06 Principles
+  "text-coral-deep group-hover:text-coral-deep", // 07 Currently
+  "text-amber-deep group-hover:text-amber-deep", // 08 Contact
+];
+const navHover = [
+  "hover:text-indigo",
+  "hover:text-magenta",
+  "hover:text-violet",
+  "hover:text-magenta",
+  "hover:text-lime-deep",
+  "hover:text-cyan-deep",
+  "hover:text-coral-deep",
+  "hover:text-amber-deep",
+];
 ---
-<header class="sticky top-0 z-40 backdrop-blur-sm bg-canvas/85 border-b border-canvas-rule no-print">
+<header class="sticky top-0 z-40 backdrop-blur-md bg-canvas/85 border-b border-canvas-rule no-print">
   <div class="max-w-container mx-auto px-6 lg:px-10 h-14 flex items-center justify-between">
-    <a href="#top" class="font-serif text-lg tracking-tight">
+    <a href="#top" class="font-serif text-lg tracking-tight inline-flex items-center gap-2">
+      <span class="inline-block w-2.5 h-2.5 rounded-full bg-gradient-to-br from-magenta via-violet to-cyan shadow-sm"></span>
       {profile.name}
     </a>
-    <nav class="hidden md:flex items-center gap-7">
-      {nav.map((item) => (
+    <nav class="hidden md:flex items-center gap-6">
+      {nav.map((item, i) => (
         <a
           href={item.href}
-          class="group flex items-baseline gap-1.5 text-sm text-ink-700 hover:text-indigo transition-colors"
+          class={`group flex items-baseline gap-1.5 text-sm text-ink-800 transition-colors ${navHover[i]}`}
         >
-          <span class="font-mono text-[10px] text-amber font-semibold group-hover:text-indigo">{item.num}</span>
+          <span class={`font-mono text-[10px] font-bold transition-colors ${navAccents[i]}`}>{item.num}</span>
           <span>{item.label}</span>
         </a>
       ))}
     </nav>
     <a
       href={profile.cvPath}
-      class="font-mono text-xs px-3 py-1.5 border border-canvas-rule2 rounded-full hover:border-ink transition-colors"
+      class="font-mono text-xs font-semibold px-3.5 py-1.5 rounded-full text-canvas bg-gradient-to-r from-magenta via-violet to-cyan shadow-md hover:shadow-[0_8px_20px_-6px_rgba(124,58,237,0.55)] hover:-translate-y-0.5 transition-all"
     >
       CV
     </a>

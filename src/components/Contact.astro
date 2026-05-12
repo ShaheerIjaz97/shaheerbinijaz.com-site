@@ -8,25 +8,32 @@ const channelIcons: Record<string, string> = {
   "GitHub":                    "lucide:github",
 };
 ---
-<section id="contact" class="relative bg-ink text-canvas overflow-hidden">
+<section id="contact" class="relative isolate bg-ink text-canvas overflow-hidden">
 
-  <!-- Decorative orbs -->
-  <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-0">
-    <div class="absolute -top-20 -right-20 h-[500px] w-[500px] rounded-full opacity-30"
-         style="background: radial-gradient(50% 50% at 50% 50%, rgba(58,69,211,0.55), transparent 70%);"></div>
-    <div class="absolute -bottom-32 left-[10%] h-[400px] w-[400px] rounded-full opacity-25"
-         style="background: radial-gradient(50% 50% at 50% 50%, rgba(232,163,60,0.55), transparent 70%);"></div>
+  <!-- Vivid chromatic orbs on dark backdrop -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+    <div class="absolute -top-24 -right-20 h-[560px] w-[560px] rounded-full"
+         style="background: radial-gradient(closest-side, rgba(224,52,139,0.55), rgba(224,52,139,0) 70%);"></div>
+    <div class="absolute top-[20%] -left-20 h-[460px] w-[460px] rounded-full"
+         style="background: radial-gradient(closest-side, rgba(124,58,237,0.50), rgba(124,58,237,0) 70%);"></div>
+    <div class="absolute -bottom-32 right-[20%] h-[480px] w-[480px] rounded-full"
+         style="background: radial-gradient(closest-side, rgba(14,165,200,0.45), rgba(14,165,200,0) 70%);"></div>
+    <div class="absolute -bottom-20 -left-10 h-[360px] w-[360px] rounded-full"
+         style="background: radial-gradient(closest-side, rgba(255,107,71,0.40), rgba(255,107,71,0) 70%);"></div>
+    <div class="absolute inset-0 bg-grid bg-grid opacity-[0.06]"></div>
   </div>
+  <!-- Top chromatic stripe bleeds in from previous section -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-magenta via-violet via-cyan to-coral"></div>
 
   <div class="relative max-w-container mx-auto px-6 lg:px-10 pt-24 pb-24 lg:pt-28 lg:pb-28">
 
     <header class="fade-up">
       <div class="flex items-center gap-4">
-        <span class="inline-flex items-center justify-center h-7 px-2.5 rounded-full font-mono text-[11px] font-bold bg-amber text-ink">
+        <span class="inline-flex items-center justify-center h-9 px-3 rounded-full font-mono text-sm font-extrabold shadow-lg bg-gradient-to-r from-magenta to-coral text-canvas">
           {contact.number}
         </span>
-        <span class="font-mono text-xs uppercase tracking-[0.18em] text-amber-dim font-semibold">{contact.label}</span>
-        <span class="hidden md:inline-block h-[2px] w-12 bg-amber opacity-60 rounded-full"></span>
+        <span class="font-mono text-xs uppercase tracking-[0.20em] text-coral font-bold">{contact.label}</span>
+        <span class="hidden md:inline-block h-[4px] w-20 rounded-full bg-gradient-to-r from-coral via-magenta to-violet shadow-md"></span>
       </div>
       <h2 class="mt-5 font-serif text-display-lg max-w-[32ch] leading-[1.05]">
         {contact.heading}
@@ -36,14 +43,14 @@ const channelIcons: Record<string, string> = {
     <div class="mt-12 grid lg:grid-cols-12 gap-10 items-start">
       <div class="lg:col-span-7 max-w-prose fade-up stagger-1">
         <p class="text-ink-200 leading-relaxed text-lg">{contact.body}</p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <a href={`mailto:${channelIcons["shaheer.ijaz03@gmail.com"] && "shaheer.ijaz03@gmail.com"}`}
-             class="btn btn-amber">
+        <div class="mt-8 grid grid-cols-1 sm:flex sm:flex-wrap gap-3">
+          <a href="mailto:shaheer.ijaz03@gmail.com"
+             class="btn btn-amber justify-center sm:justify-start">
             <Icon name="lucide:mail" class="w-4 h-4" />
             Email me
           </a>
           <a href="https://www.linkedin.com/in/shaheer-bin-ijaz/"
-             class="btn !bg-canvas !text-ink hover:!bg-indigo hover:!text-canvas">
+             class="btn !bg-canvas !text-ink hover:!bg-gradient-to-r hover:!from-magenta hover:!to-violet hover:!text-canvas justify-center sm:justify-start">
             <Icon name="lucide:linkedin" class="w-4 h-4" />
             LinkedIn DM
           </a>
@@ -51,19 +58,27 @@ const channelIcons: Record<string, string> = {
       </div>
 
       <ul class="lg:col-span-5 stagger space-y-3">
-        {contact.channels.map((c) => (
-          <li class="fade-up">
-            <a href={c.href} class="group flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-canvas/15 hover:border-amber/60 hover:bg-canvas/[0.03] transition-all">
-              <span class="inline-flex items-center gap-3 text-canvas">
-                <span class="inline-flex items-center justify-center h-9 w-9 rounded-lg bg-canvas/10 text-amber group-hover:bg-amber group-hover:text-ink transition-colors">
-                  <Icon name={channelIcons[c.label] || "lucide:arrow-up-right"} class="w-4 h-4" />
+        {contact.channels.map((c, i) => {
+          const accents = [
+            { ring: "hover:border-magenta/80", chip: "bg-magenta/15 text-magenta-dim group-hover:bg-magenta group-hover:text-canvas",   arrow: "group-hover:text-magenta-dim" },
+            { ring: "hover:border-violet/80",  chip: "bg-violet/15 text-violet-dim group-hover:bg-violet group-hover:text-canvas",     arrow: "group-hover:text-violet-dim" },
+            { ring: "hover:border-cyan/80",    chip: "bg-cyan/15 text-cyan-dim group-hover:bg-cyan group-hover:text-canvas",           arrow: "group-hover:text-cyan-dim" },
+          ];
+          const a = accents[i % accents.length];
+          return (
+            <li class="fade-up">
+              <a href={c.href} class={`group flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-canvas/15 hover:bg-canvas/[0.04] transition-all ${a.ring}`}>
+                <span class="inline-flex items-center gap-3 text-canvas">
+                  <span class={`inline-flex items-center justify-center h-9 w-9 rounded-lg transition-colors ${a.chip}`}>
+                    <Icon name={channelIcons[c.label] || "lucide:arrow-up-right"} class="w-4 h-4" />
+                  </span>
+                  <span class="text-base">{c.label}</span>
                 </span>
-                <span class="text-base">{c.label}</span>
-              </span>
-              <Icon name="lucide:arrow-up-right" class="w-4 h-4 text-canvas/50 group-hover:text-amber transition-colors" />
-            </a>
-          </li>
-        ))}
+                <Icon name="lucide:arrow-up-right" class={`w-4 h-4 text-canvas/50 transition-colors ${a.arrow}`} />
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </div>
 
