@@ -18,7 +18,7 @@ export const profile = {
   email: "shaheer.ijaz03@gmail.com",
   github: "https://github.com/ShaheerIjaz97",
   linkedin: "https://www.linkedin.com/in/shaheer-bin-ijaz/",
-  cvPath: "/cv.pdf",
+  cvPath: "/cv",
   yearsExperience: "6+",
   availability: "Open to senior backend, data engineering, and ML roles",
 };
@@ -36,7 +36,7 @@ export const hero = {
     "Six years building production Python services that take real load. Django and FastAPI on the request path. AWS Lambda and Postgres on the data side. PyTorch and YOLO when the problem is visual. The code is built to be read on day one and shipped on week one.",
   ctas: {
     primary:   { label: "See selected work", href: "#work" },
-    secondary: { label: "Download CV",       href: "/cv.pdf" },
+    secondary: { label: "View CV",           href: "/cv" },
   },
   badges: [
     { kicker: "Backend", label: "Django · FastAPI",        position: "top-left"     },
