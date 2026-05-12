@@ -1,0 +1,17 @@
+---
+import { now } from "../content/site";
+import SectionHeader from "./SectionHeader.astro";
+---
+<section id="now">
+  <SectionHeader number={now.number} label={now.label} heading={now.heading} />
+  <div class="max-w-container mx-auto px-6 lg:px-10 pb-24 max-w-prose">
+    <ul class="space-y-4 reveal">
+      {now.items.map((line) => (
+        <li class="flex gap-3 text-ink-700 leading-relaxed">
+          <span class="mt-2.5 h-1 w-3 bg-indigo flex-shrink-0"></span>
+          <span>{line}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

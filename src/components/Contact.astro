@@ -1,0 +1,28 @@
+---
+import { contact } from "../content/site";
+import SectionHeader from "./SectionHeader.astro";
+---
+<section id="contact" class="bg-ink text-canvas">
+  <header class="reveal max-w-container mx-auto px-6 lg:px-10 pt-24 pb-8 lg:pt-28 lg:pb-10">
+    <div class="flex items-baseline gap-4">
+      <span class="font-mono text-xs text-indigo-dim">{contact.number}</span>
+      <span class="font-mono text-xs uppercase tracking-wider text-ink-200">{contact.label}</span>
+    </div>
+    <h2 class="mt-4 font-serif text-display-lg max-w-[32ch]">{contact.heading}</h2>
+  </header>
+  <div class="max-w-container mx-auto px-6 lg:px-10 pb-24 grid lg:grid-cols-12 gap-10">
+    <div class="lg:col-span-8 max-w-prose reveal">
+      <p class="text-ink-200 leading-relaxed text-lg">{contact.body}</p>
+    </div>
+    <ul class="lg:col-span-4 space-y-3 reveal">
+      {contact.channels.map((c) => (
+        <li>
+          <a href={c.href} class="group inline-flex items-center gap-2 text-canvas hover:text-indigo-dim transition-colors">
+            <span class="text-base">{c.label}</span>
+            <span class="opacity-50 group-hover:opacity-100 transition-opacity" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
