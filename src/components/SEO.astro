@@ -8,20 +8,40 @@ interface Props {
 
 const {
   title = `${profile.name} — ${profile.title}`,
-  description = `${profile.name}. ${profile.subtitle}.`,
+  description = `${profile.title} based in ${profile.location}. ${profile.yearsExperience} years building Python backends, ETL pipelines, and ML/CV systems. Currently leading backend on Kenya's national healthcare initiative at Devsinc.`,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://shaheerbinijaz.com").toString();
+const ogImage = new URL("/shaheer.jpg", Astro.site ?? "https://shaheerbinijaz.com").toString();
 ---
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
-<meta property="og:type" content="website" />
+<meta name="author" content={profile.name} />
+<meta property="og:type" content="profile" />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:locale" content="en_US" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
 <meta name="theme-color" content="#FAFAF9" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<!-- JSON-LD: Person schema for rich results -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": profile.name,
+  "jobTitle": profile.title,
+  "url": canonical,
+  "image": ogImage,
+  "email": profile.email,
+  "address": { "@type": "PostalAddress", "addressLocality": "Lahore", "addressCountry": "PK" },
+  "sameAs": [profile.github, profile.linkedin],
+  "worksFor": { "@type": "Organization", "name": "Devsinc" },
+  "knowsAbout": ["Python", "Django", "FastAPI", "PostgreSQL", "AWS Lambda", "GCP Cloud Run", "PyTorch", "YOLO", "OpenCV", "Solana"]
+})} />
