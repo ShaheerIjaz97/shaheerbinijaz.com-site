@@ -4,15 +4,26 @@ interface Props {
   label: string;
   heading: string;
   intro?: string;
+  accent?: "indigo" | "amber" | "moss";
 }
-const { number, label, heading, intro } = Astro.props;
+const { number, label, heading, intro, accent = "indigo" } = Astro.props;
+
+const accentClasses: Record<string, { badge: string; rule: string }> = {
+  indigo: { badge: "bg-indigo text-canvas", rule: "bg-indigo" },
+  amber:  { badge: "bg-amber text-canvas",  rule: "bg-amber"  },
+  moss:   { badge: "bg-moss text-canvas",   rule: "bg-moss"   },
+};
+const a = accentClasses[accent];
 ---
 <header class="reveal max-w-container mx-auto px-6 lg:px-10 pt-24 pb-8 lg:pt-28 lg:pb-10">
-  <div class="flex items-baseline gap-4">
-    <span class="font-mono text-xs text-indigo">{number}</span>
-    <span class="font-mono text-xs uppercase tracking-wider text-ink-500">{label}</span>
+  <div class="flex items-center gap-4">
+    <span class={`inline-flex items-center justify-center h-7 px-2.5 rounded-full font-mono text-[11px] font-bold ${a.badge}`}>
+      {number}
+    </span>
+    <span class="font-mono text-xs uppercase tracking-[0.18em] text-ink-700 font-semibold">{label}</span>
+    <span class={`hidden md:inline-block h-[2px] w-12 ${a.rule} opacity-60 rounded-full`}></span>
   </div>
-  <h2 class="mt-4 font-serif text-display-lg text-ink max-w-[28ch]">{heading}</h2>
-  {intro && <p class="mt-4 max-w-prose text-ink-700 leading-relaxed">{intro}</p>}
+  <h2 class="mt-5 font-serif text-display-lg text-ink max-w-[28ch] leading-[1.05]">{heading}</h2>
+  {intro && <p class="mt-4 max-w-prose text-ink-800 leading-relaxed">{intro}</p>}
   <div class="mt-8 hairline"></div>
 </header>

@@ -29,31 +29,45 @@ const { title, description } = Astro.props;
       Skip to content
     </a>
 
-    <!-- Thin scroll-progress bar -->
+    <!-- Scroll progress bar -->
     <div
       id="scroll-progress"
-      class="fixed top-0 left-0 h-[2px] bg-indigo z-50 w-0 transition-[width] duration-75 ease-out no-print"
+      class="fixed top-0 left-0 h-[2px] bg-gradient-to-r from-indigo via-amber to-moss z-50 w-0 transition-[width] duration-75 ease-out no-print"
       aria-hidden="true"
     ></div>
 
     <slot />
 
     <script>
-      // Scroll reveal
+      // ------ Scroll-reveal observer ------
+      // Adds .in-view to any element with .fade-up / .fade-right / .fade-left / .scale-in
+      // Also handles .reveal (legacy) and stagger groups (.stagger > * gets stagger-N)
       const observer = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
             if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
+              entry.target.classList.add("in-view");
+              entry.target.classList.add("is-visible"); // legacy reveal
               observer.unobserve(entry.target);
             }
           }
         },
-        { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
+        { threshold: 0.08, rootMargin: "0px 0px -60px 0px" }
       );
-      document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
 
-      // Scroll progress
+      // Apply stagger-N classes inside any .stagger container
+      document.querySelectorAll(".stagger").forEach((group) => {
+        Array.from(group.children).forEach((child, i) => {
+          if (i < 8) child.classList.add(`stagger-${i + 1}`);
+        });
+      });
+
+      // Observe all animatable elements
+      document
+        .querySelectorAll(".fade-up, .fade-right, .fade-left, .scale-in, .reveal")
+        .forEach((el) => observer.observe(el));
+
+      // ------ Scroll progress + smooth nav ------
       const progress = document.getElementById("scroll-progress");
       const updateProgress = () => {
         const h = document.documentElement;
@@ -65,7 +79,7 @@ const { title, description } = Astro.props;
       window.addEventListener("scroll", updateProgress, { passive: true });
       window.addEventListener("resize", updateProgress);
 
-      // Smooth-scroll for in-page nav
+      // Smooth in-page nav
       document.querySelectorAll('a[href^="#"]').forEach((a) => {
         a.addEventListener("click", (e) => {
           const href = a.getAttribute("href");
@@ -77,6 +91,17 @@ const { title, description } = Astro.props;
           history.pushState(null, "", href);
         });
       });
+
+      // ------ Hero photo parallax (subtle) ------
+      const heroPhoto = document.querySelector('[data-hero-photo]');
+      if (heroPhoto) {
+        window.addEventListener('scroll', () => {
+          const y = window.scrollY;
+          if (y < 800) {
+            heroPhoto.style.transform = `translateY(${y * 0.05}px)`;
+          }
+        }, { passive: true });
+      }
     </script>
   </body>
 </html>

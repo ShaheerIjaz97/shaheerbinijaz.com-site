@@ -24,14 +24,29 @@ export default {
           200: "#C7CBD2",
           100: "#E5E7EB",
         },
-        // Saturated indigo accent — used sparingly. Borrowed feeling: Stripe Press.
+        // Saturated indigo accent — primary brand color (cold technical).
         indigo: {
           DEFAULT: "#3A45D3",
           deep:    "#2A33B0",
           dim:     "#5A65E0",
           glow:    "rgba(58, 69, 211, 0.10)",
+          soft:    "#E8EAFB", // very light indigo wash for section backgrounds
         },
-        // Optional muted secondaries for subtle highlight backgrounds (not used as text)
+        // Warm secondary accent — amber/saffron. Complements indigo on the color wheel.
+        // Used for availability pill, "currently focused on" bullets, hover accents.
+        amber: {
+          DEFAULT: "#E8A33C",
+          deep:    "#C2842A",
+          dim:     "#F1BE6B",
+          soft:    "#FAEFD9", // creamy tint for soft fills
+        },
+        // Tertiary moss green — used for "open" / "available" stamp and live-status dots.
+        moss: {
+          DEFAULT: "#5C8A6F",
+          dim:     "#82B098",
+          soft:    "#E5EDE7",
+        },
+        // Muted neutrals for subtle highlight backgrounds.
         sky:  "#E3E9F6",
         sand: "#EDE7DA",
       },

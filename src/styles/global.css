@@ -26,18 +26,101 @@ html, body {
   color: theme("colors.canvas.DEFAULT");
 }
 
-/* Scroll reveal: opacity + small upward translate. */
+/* ==========================================================================
+   Animation system
+   - .anim-float, .anim-float-slow, .anim-float-delayed: gentle vertical loop
+   - .fade-up, .fade-right, .fade-left, .scale-in: scroll-triggered entries
+   - .stagger > * delays children by 80ms each (handled via JS in Base.astro)
+   - .draw-rule: animated horizontal rule, slides left → right
+   - Respects prefers-reduced-motion (zero motion when set)
+   ========================================================================== */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+@keyframes floatSlow {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50%      { transform: translate(2px, -4px) rotate(0.4deg); }
+}
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeRight {
+  0% { opacity: 0; transform: translateX(-24px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes scaleIn {
+  0% { opacity: 0; transform: scale(0.96); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes drawRule {
+  0% { transform: scaleX(0); transform-origin: left; }
+  100% { transform: scaleX(1); transform-origin: left; }
+}
+@keyframes pulseRing {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(58, 69, 211, 0.4); }
+  50%      { box-shadow: 0 0 0 10px rgba(58, 69, 211, 0); }
+}
+
+.anim-float        { animation: float 5s ease-in-out infinite; }
+.anim-float-slow   { animation: floatSlow 7s ease-in-out infinite; }
+.anim-float-delay  { animation: float 6s ease-in-out 1.5s infinite; }
+
+/* Scroll-reveal: opacity 0 until IntersectionObserver fires */
+.fade-up, .fade-right, .fade-left, .scale-in {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+.fade-up { transform: translateY(20px); transition: opacity 700ms ease-out, transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+.fade-right { transform: translateX(-24px); transition: opacity 700ms ease-out, transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+.fade-left { transform: translateX(24px); transition: opacity 700ms ease-out, transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+.scale-in { transform: scale(0.96); transition: opacity 650ms ease-out, transform 650ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+
+.in-view.fade-up,
+.in-view.fade-right,
+.in-view.fade-left,
+.in-view.scale-in { opacity: 1; transform: none; }
+
+/* Legacy reveal still supported (used in SectionHeader) */
 .reveal {
   opacity: 0;
   transform: translateY(14px);
   transition: opacity 600ms ease-out, transform 600ms ease-out;
 }
-.reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+/* Stagger delays — applied via JS by adding stagger-N classes */
+.stagger-1 { transition-delay: 60ms; animation-delay: 60ms; }
+.stagger-2 { transition-delay: 130ms; animation-delay: 130ms; }
+.stagger-3 { transition-delay: 200ms; animation-delay: 200ms; }
+.stagger-4 { transition-delay: 270ms; animation-delay: 270ms; }
+.stagger-5 { transition-delay: 340ms; animation-delay: 340ms; }
+.stagger-6 { transition-delay: 410ms; animation-delay: 410ms; }
+.stagger-7 { transition-delay: 480ms; animation-delay: 480ms; }
+.stagger-8 { transition-delay: 550ms; animation-delay: 550ms; }
+
+/* Animated rule line under section headers */
+.draw-rule {
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.in-view .draw-rule, .draw-rule.in-view { transform: scaleX(1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-float, .anim-float-slow, .anim-float-delay { animation: none; }
+  .fade-up, .fade-right, .fade-left, .scale-in, .reveal, .draw-rule {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
-/* Section numbering tag */
+/* ==========================================================================
+   Common tokens
+   ========================================================================== */
+
 .eyebrow {
   font-family: theme("fontFamily.mono");
   font-size: 0.75rem;
@@ -46,14 +129,12 @@ html, body {
   color: theme("colors.ink.500");
 }
 
-/* Hairline rules used across sections */
 .hairline {
   height: 1px;
   background-color: theme("colors.canvas.rule");
   width: 100%;
 }
 
-/* Inline link with subtle underline */
 .link {
   color: theme("colors.indigo.DEFAULT");
   text-decoration: underline;
@@ -63,7 +144,6 @@ html, body {
 }
 .link:hover { color: theme("colors.indigo.deep"); }
 
-/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -72,14 +152,17 @@ html, body {
   border-radius: 999px;
   font-size: 0.9375rem;
   font-weight: 500;
-  transition: transform 150ms ease, background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+  transition: transform 200ms cubic-bezier(0.2, 0.7, 0.2, 1), background-color 200ms ease, color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 }
+.btn:hover { transform: translateY(-2px); }
 .btn-primary {
   background-color: theme("colors.ink.DEFAULT");
   color: theme("colors.canvas.DEFAULT");
+  box-shadow: 0 8px 20px -10px rgba(14, 17, 22, 0.40);
 }
 .btn-primary:hover {
   background-color: theme("colors.indigo.DEFAULT");
+  box-shadow: 0 12px 28px -10px rgba(58, 69, 211, 0.55);
 }
 .btn-ghost {
   background-color: transparent;
@@ -89,20 +172,58 @@ html, body {
 .btn-ghost:hover {
   border-color: theme("colors.ink.DEFAULT");
 }
+.btn-amber {
+  background-color: theme("colors.amber.DEFAULT");
+  color: theme("colors.canvas.DEFAULT");
+  box-shadow: 0 8px 20px -10px rgba(232, 163, 60, 0.55);
+}
+.btn-amber:hover {
+  background-color: theme("colors.amber.deep");
+}
 
-/* Card hover lift */
 .card {
   background-color: theme("colors.canvas.DEFAULT");
   border: 1px solid theme("colors.canvas.rule");
-  transition: border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+  transition: border-color 220ms ease, transform 220ms cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 220ms ease;
 }
 .card:hover {
-  border-color: theme("colors.ink.300");
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px -16px rgba(14, 17, 22, 0.20);
+  border-color: theme("colors.indigo.dim");
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px -20px rgba(14, 17, 22, 0.22);
 }
 
-/* Print: clean CV-like output */
+/* Pill chip used in stack section */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid theme("colors.canvas.rule2");
+  background-color: theme("colors.canvas.DEFAULT");
+  font-size: 0.8125rem;
+  color: theme("colors.ink.700");
+  transition: border-color 180ms ease, color 180ms ease, transform 180ms ease, background-color 180ms ease;
+}
+.chip:hover {
+  border-color: theme("colors.indigo.DEFAULT");
+  color: theme("colors.indigo.DEFAULT");
+  background-color: theme("colors.indigo.soft");
+  transform: translateY(-1px);
+}
+
+/* Decorative pulse dot used in nav / status pill */
+.pulse-dot {
+  position: relative;
+}
+.pulse-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  animation: pulseRing 2.4s ease-out infinite;
+}
+
 @media print {
   .no-print { display: none !important; }
   body { background: #fff !important; color: #000 !important; }

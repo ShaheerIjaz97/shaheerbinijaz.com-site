@@ -1,24 +1,53 @@
 ---
 import { about } from "../content/site";
 import SectionHeader from "./SectionHeader.astro";
+import { Icon } from "astro-icon/components";
+
+// Visual "what I do" cards — replaces wall-of-text bullet list
+const capabilities = [
+  { icon: "lucide:server",        label: "Backend services",  detail: "Django, DRF, FastAPI",        accent: "indigo" },
+  { icon: "lucide:database",      label: "Data pipelines",    detail: "Lambda, Postgres, BigQuery", accent: "amber"  },
+  { icon: "lucide:brain-circuit", label: "ML & Computer Vision", detail: "PyTorch, YOLO, OpenCV",   accent: "moss"   },
+  { icon: "lucide:network",       label: "Event-driven",      detail: "Pub/Sub, RabbitMQ, Celery",  accent: "indigo" },
+  { icon: "lucide:coins",         label: "Solana backends",   detail: "off-chain indexing",         accent: "amber"  },
+  { icon: "lucide:gauge",         label: "Observability",     detail: "Logs, metrics, traces",      accent: "moss"   },
+];
+
+const accentBg: Record<string, string> = {
+  indigo: "bg-indigo-soft text-indigo",
+  amber:  "bg-amber-soft text-amber-deep",
+  moss:   "bg-moss-soft text-moss",
+};
 ---
 <section id="about">
-  <SectionHeader number={about.number} label={about.label} heading={about.heading} />
+  <SectionHeader number={about.number} label={about.label} heading={about.heading} accent="indigo" />
   <div class="max-w-container mx-auto px-6 lg:px-10 pb-24 grid lg:grid-cols-12 gap-10">
-    <div class="lg:col-span-8 space-y-6 max-w-prose reveal">
-      {about.paragraphs.map((p) => (
-        <p class="text-ink-700 leading-relaxed">{p}</p>
+
+    <!-- Left: condensed prose (2 short paragraphs) -->
+    <div class="lg:col-span-5 space-y-5 max-w-prose fade-right">
+      <p class="text-ink-800 leading-relaxed text-lg">
+        Six years building Python services that have to actually run in production. A Django service that talks to a payment provider one day. A Lambda pipeline ingesting product data into BigQuery the next. A YOLO model checking parts on a manufacturing line the day after.
+      </p>
+      <p class="text-ink-800 leading-relaxed">
+        Currently Senior SWE at <strong class="text-ink">Devsinc</strong>, leading backend architecture on Kenya's national healthcare initiative. Before that: <strong class="text-ink">Code District</strong>, <strong class="text-ink">Techesthete</strong>, and <strong class="text-ink">WiMetrix</strong>.
+      </p>
+      <p class="text-ink-700 leading-relaxed text-sm">
+        Clean schemas, real tests, a Dockerfile that another engineer can run on day one. The architecture decisions go in a doc, not a Slack message.
+      </p>
+    </div>
+
+    <!-- Right: 6 capability cards with icons + stagger animation -->
+    <div class="lg:col-span-7 stagger grid grid-cols-2 md:grid-cols-3 gap-3">
+      {capabilities.map((c) => (
+        <div class="fade-up card rounded-xl p-4 group cursor-default">
+          <span class={`inline-flex items-center justify-center h-10 w-10 rounded-lg ${accentBg[c.accent]} transition-transform duration-300 group-hover:scale-110`}>
+            <Icon name={c.icon} class="w-5 h-5" />
+          </span>
+          <p class="mt-3 text-sm font-semibold text-ink">{c.label}</p>
+          <p class="mt-0.5 text-xs text-ink-700 leading-snug">{c.detail}</p>
+        </div>
       ))}
     </div>
-    <aside class="lg:col-span-4 reveal">
-      <ul class="space-y-3">
-        {about.bullets.map((b) => (
-          <li class="flex gap-3 text-sm text-ink-700">
-            <span class="mt-1.5 h-1 w-1 rounded-full bg-indigo flex-shrink-0"></span>
-            <span>{b}</span>
-          </li>
-        ))}
-      </ul>
-    </aside>
+
   </div>
 </section>

@@ -1,17 +1,35 @@
 ---
 import { principles } from "../content/site";
 import SectionHeader from "./SectionHeader.astro";
+import { Icon } from "astro-icon/components";
+
+const principleIcons = [
+  "lucide:shield-check",  // schema first
+  "lucide:workflow",      // state machines
+  "lucide:repeat",        // idempotent
+  "lucide:activity",      // observability
+  "lucide:file-text",     // architecture docs
+];
+const accents = ["indigo", "amber", "moss", "indigo", "amber"];
+const accentClasses: Record<string, string> = {
+  indigo: "bg-indigo-soft text-indigo",
+  amber:  "bg-amber-soft text-amber-deep",
+  moss:   "bg-moss-soft text-moss",
+};
 ---
-<section id="principles" class="bg-canvas-deep border-y border-canvas-rule">
-  <SectionHeader number={principles.number} label={principles.label} heading={principles.heading} />
-  <div class="max-w-container mx-auto px-6 lg:px-10 pb-24 grid md:grid-cols-2 gap-x-10 gap-y-12">
+<section id="principles">
+  <SectionHeader number={principles.number} label={principles.label} heading={principles.heading} accent="indigo" />
+  <div class="max-w-container mx-auto px-6 lg:px-10 pb-24 stagger grid md:grid-cols-2 lg:grid-cols-3 gap-5">
     {principles.items.map((p, idx) => (
-      <article class="reveal max-w-prose">
-        <div class="flex items-baseline gap-3">
-          <span class="font-mono text-xs text-indigo">{String(idx + 1).padStart(2, "0")}</span>
-          <h3 class="font-serif text-2xl text-ink leading-tight">{p.title}</h3>
+      <article class="fade-up card rounded-2xl p-6 group">
+        <span class={`inline-flex items-center justify-center h-12 w-12 rounded-xl ${accentClasses[accents[idx]]} transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
+          <Icon name={principleIcons[idx] || "lucide:check"} class="w-6 h-6" />
+        </span>
+        <div class="mt-4 flex items-baseline gap-2">
+          <span class="font-mono text-[11px] text-ink-400">{String(idx + 1).padStart(2, "0")}</span>
+          <h3 class="font-serif text-xl text-ink leading-tight">{p.title}</h3>
         </div>
-        <p class="mt-3 text-ink-700 leading-relaxed pl-9">{p.body}</p>
+        <p class="mt-3 text-sm text-ink-800 leading-relaxed">{p.body}</p>
       </article>
     ))}
   </div>
