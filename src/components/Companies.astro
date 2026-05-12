@@ -1,0 +1,16 @@
+---
+import { companies } from "../content/site";
+---
+<section class="border-b border-canvas-rule">
+  <div class="max-w-container mx-auto px-6 lg:px-10 py-6">
+    <p class="font-mono text-[10px] uppercase tracking-wider text-ink-400 mb-3 reveal">{companies.label}</p>
+    <div class="flex flex-wrap items-end gap-x-10 gap-y-3 reveal">
+      {companies.items.map((c) => (
+        <div class="flex items-baseline gap-3">
+          <span class="font-serif text-xl text-ink">{c.name}</span>
+          <span class="font-mono text-[11px] text-ink-400">{c.period}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
