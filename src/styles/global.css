@@ -1,0 +1,110 @@
+@import "@fontsource-variable/inter/index.css";
+@import "@fontsource-variable/source-serif-4/index.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html, body {
+  background-color: theme("colors.canvas.DEFAULT");
+  color: theme("colors.ink.DEFAULT");
+  font-family: theme("fontFamily.sans");
+  font-feature-settings: "ss01", "cv11";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: theme("colors.indigo.DEFAULT");
+  color: theme("colors.canvas.DEFAULT");
+}
+
+/* Scroll reveal: opacity + small upward translate. */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 600ms ease-out, transform 600ms ease-out;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Section numbering tag */
+.eyebrow {
+  font-family: theme("fontFamily.mono");
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: theme("colors.ink.500");
+}
+
+/* Hairline rules used across sections */
+.hairline {
+  height: 1px;
+  background-color: theme("colors.canvas.rule");
+  width: 100%;
+}
+
+/* Inline link with subtle underline */
+.link {
+  color: theme("colors.indigo.DEFAULT");
+  text-decoration: underline;
+  text-decoration-color: theme("colors.indigo.dim");
+  text-underline-offset: 3px;
+  transition: color 150ms ease;
+}
+.link:hover { color: theme("colors.indigo.deep"); }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.125rem;
+  border-radius: 999px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: transform 150ms ease, background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+.btn-primary {
+  background-color: theme("colors.ink.DEFAULT");
+  color: theme("colors.canvas.DEFAULT");
+}
+.btn-primary:hover {
+  background-color: theme("colors.indigo.DEFAULT");
+}
+.btn-ghost {
+  background-color: transparent;
+  color: theme("colors.ink.DEFAULT");
+  border: 1px solid theme("colors.canvas.rule2");
+}
+.btn-ghost:hover {
+  border-color: theme("colors.ink.DEFAULT");
+}
+
+/* Card hover lift */
+.card {
+  background-color: theme("colors.canvas.DEFAULT");
+  border: 1px solid theme("colors.canvas.rule");
+  transition: border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+}
+.card:hover {
+  border-color: theme("colors.ink.300");
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -16px rgba(14, 17, 22, 0.20);
+}
+
+/* Print: clean CV-like output */
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff !important; color: #000 !important; }
+  .card { border-color: #999 !important; box-shadow: none !important; }
+}
