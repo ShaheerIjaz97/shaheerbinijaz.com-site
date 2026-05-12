@@ -1,0 +1,18 @@
+---
+interface Props {
+  number: string;
+  label: string;
+  heading: string;
+  intro?: string;
+}
+const { number, label, heading, intro } = Astro.props;
+---
+<header class="reveal max-w-container mx-auto px-6 lg:px-10 pt-24 pb-8 lg:pt-28 lg:pb-10">
+  <div class="flex items-baseline gap-4">
+    <span class="font-mono text-xs text-indigo">{number}</span>
+    <span class="font-mono text-xs uppercase tracking-wider text-ink-500">{label}</span>
+  </div>
+  <h2 class="mt-4 font-serif text-display-lg text-ink max-w-[28ch]">{heading}</h2>
+  {intro && <p class="mt-4 max-w-prose text-ink-700 leading-relaxed">{intro}</p>}
+  <div class="mt-8 hairline"></div>
+</header>

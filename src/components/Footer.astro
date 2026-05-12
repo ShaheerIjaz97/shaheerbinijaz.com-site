@@ -1,0 +1,14 @@
+---
+import { footer } from "../content/site";
+---
+<footer class="border-t border-canvas-rule bg-canvas text-ink no-print">
+  <div class="max-w-container mx-auto px-6 lg:px-10 py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+    <p class="text-sm text-ink-500">
+      © {new Date().getFullYear()} {footer.rights}.
+    </p>
+    <p class="text-sm text-ink-500">
+      {footer.builtWith.split("Source on GitHub")[0]}
+      <a href={footer.sourceHref} class="link">Source on GitHub</a>.
+    </p>
+  </div>
+</footer>
